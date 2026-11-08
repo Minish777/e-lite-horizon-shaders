@@ -62,7 +62,7 @@ fn tonemap_apply(c: vec3<f32>) -> vec3<f32> {
         let b = -pow(mid_in, a) * pow(hdr_max, a - d) * mid_out;
         let cc = pow(mid_out, d * (a - d)) * pow(hdr_max, a * (a - d)) / pow(mid_in, a);
         let dd = pow(mid_out, d) * pow(hdr_max, a - d) - b;
-        return clamp(pow(cc, 1.0 / a) * pow(c, d / a) / (pow(c, d) + dd), vec3<f32>(0.0), vec3<f32>(1.0));
+        return clamp(pow(cc, 1.0 / a) * pow(c, vec3<f32>(d / a)) / (pow(c, vec3<f32>(d)) + dd), vec3<f32>(0.0), vec3<f32>(1.0));
     }
     let x = max(c, vec3<f32>(0.0));
     return clamp((x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14), vec3<f32>(0.0), vec3<f32>(1.0));
