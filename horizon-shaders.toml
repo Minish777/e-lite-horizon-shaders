@@ -29,7 +29,6 @@ file = "weather.wgsl"
 resolution = 2048
 distance = 128.0
 resolution_option = "shadow_resolution"
-distance_option = "shadow_distance"
 
 [reflection]
 option = "reflections"
@@ -114,7 +113,7 @@ items = ["quality_profile", "color_scheme", "waving", "wind_force", "reflections
 [[pages]]
 id = "lighting"
 name = "Lighting"
-items = ["shadow_resolution", "shadow_distance", "shadow_strength", "shadow_softness", "ambient_level", "ao_strength", "night_bright", "avoid_dark", "blocklight_warmth", "torch_flicker", ""]
+items = ["shadow_resolution", "shadow_strength", "shadow_softness", "ambient_level", "ao_strength", "night_bright", "avoid_dark", "blocklight_warmth", "torch_flicker", ""]
 
 [[pages]]
 id = "effects"
@@ -201,13 +200,6 @@ type = "choice"
 values = ["1024", "2048", "4096"]
 default = "2048"
 
-[[options]]
-id = "shadow_distance"
-name = "Shadow distance"
-description = "E-LITE SHADOW_DISTANCE_SLIDER: how far shadows reach."
-type = "choice"
-values = ["64", "128", "192"]
-default = "128"
 
 [[options]]
 id = "shadow_strength"
