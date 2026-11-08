@@ -28,7 +28,6 @@ file = "weather.wgsl"
 [shadow]
 resolution = 2048
 distance = 128.0
-resolution_option = "shadow_resolution"
 
 [reflection]
 option = "reflections"
@@ -113,7 +112,7 @@ items = ["quality_profile", "color_scheme", "waving", "wind_force", "reflections
 [[pages]]
 id = "lighting"
 name = "Lighting"
-items = ["shadow_resolution", "shadow_strength", "shadow_softness", "ambient_level", "ao_strength", "night_bright", "avoid_dark", "blocklight_warmth", "torch_flicker", ""]
+items = ["shadow_strength", "shadow_softness", "ambient_level", "ao_strength", "night_bright", "avoid_dark", "blocklight_warmth", "torch_flicker", ""]
 
 [[pages]]
 id = "effects"
@@ -191,14 +190,6 @@ default = 1.0
 min = 0.0
 max = 3.0
 step = 0.05
-
-[[options]]
-id = "shadow_resolution"
-name = "Shadow resolution"
-description = "E-LITE SHADOW_QTY_SLIDER: shadow map size."
-type = "choice"
-values = ["1024", "2048", "4096"]
-default = "2048"
 
 
 [[options]]
