@@ -134,7 +134,7 @@ fn atmosphere(input: PostInput) -> vec4<f32> {
     let day = daylight();
     // Denser around sunrise and sunset and in rain; at altitude height_path does the thinning.
     let thickness = 1.0 + 0.9 * sun_low() + 0.8 * clamp(frame.wetness, 0.0, 1.0);
-    let tau = 0.38 * (path / render_distance) * thickness * near_fade * inside * fog_amount * fog_adjust * profile_scale();
+    let tau = 0.30 * (path / render_distance) * thickness * near_fade * inside * fog_amount * fog_adjust * profile_scale();
     let opacity = min(1.0 - exp(-max(tau, 0.0)), max_opacity);
 
     // By day the haze is vanilla's fog and sky colours. Toward a low sun it glows warm orange; at

@@ -308,8 +308,8 @@ fn water_colour(input: MaterialInput, albedo: vec3<f32>, lit: vec3<f32>, light_c
     let drift = frame.time * 0.35;
     let froth = value_noise(world.xz * 2.2 + vec2<f32>(drift, -drift * 0.6)) * 0.6
         + value_noise(world.xz * 5.3 - vec2<f32>(drift * 0.8, drift)) * 0.4;
-    let foam = shore * smoothstep(0.45, 0.75, froth + shore * 0.25);
-    colour = mix(colour, min(lit * 1.6 + vec3<f32>(0.18), vec3<f32>(1.0)), foam * 0.4 * wave_strength);
+    let foam = shore * smoothstep(0.55, 0.85, froth + shore * 0.25);
+    colour = mix(colour, min(lit * 1.6 + vec3<f32>(0.18), vec3<f32>(1.0)), foam * 0.25 * wave_strength);
 
     return colour;
 }
