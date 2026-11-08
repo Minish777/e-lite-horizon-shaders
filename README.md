@@ -14,7 +14,7 @@ then in game: Video Settings -> Shaders -> pick "E-LITE (Horizon port)".
 
 ## What is ported (E-LITE v5.1.3 -> Horizon)
 - Profiles (ACERCADE): No effects / Very low / Low / Medium / High / Max.
-  Medium = recommended default (shadow map 2048, 128 blocks).
+  Medium = recommended default (shadow map 2048, 128 blocks; size/distance adjustable in Lighting).
 - Color schemes (STYLE / COLOR_SCHEME): Vanilla, Realistic+, LITE Legacy,
   Warm film, Vivid. Colors calibrated to `config.glsl` defaults
   (day light 0.90/0.84/0.79, sunset 1.0/0.59/0.35, zenith/horizon day+night).
