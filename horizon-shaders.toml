@@ -1,0 +1,628 @@
+schema = 1
+id = "e_lite_horizon"
+name = "E-LITE (Horizon port)"
+version = "1.0.0"
+api = "0.1"
+description = "Unofficial port of E-LITE shaders (MakeUp Ultra Fast edit, v5.1.3) to Horizon's WGSL shader API. Colored shadows, godrays, bloom, AO, water reflections and refraction, waving, volumetric-style clouds, stars, aurora, LabPBR, and E-LITE's own settings and color schemes. Medium profile by default."
+authors = ["EntokitoDezonze (original E-LITE)", "Javier Garduno (MakeUp Ultra Fast)"]
+license = "LGPL-3.0"
+shared = ["common.wgsl"]
+
+[sky]
+file = "sky.wgsl"
+name = "E-LITE sky"
+clouds = false
+stars = false
+sun = false
+
+[material]
+file = "material.wgsl"
+name = "E-LITE lighting"
+
+[vertex]
+file = "vertex.wgsl"
+
+[weather]
+file = "weather.wgsl"
+
+[shadow]
+resolution = 2048
+distance = 128.0
+
+[reflection]
+option = "reflections"
+
+[[materials]]
+id = 1
+sprites = ["block/*_leaves"]
+
+[[materials]]
+id = 2
+sprites = [
+    "block/short_grass", "block/short_dry_grass", "block/tall_dry_grass", "block/fern", "block/bush",
+    "block/dead_bush", "block/firefly_bush", "block/*_sapling", "block/dandelion", "block/poppy",
+    "block/blue_orchid", "block/allium", "block/azure_bluet", "block/*_tulip", "block/oxeye_daisy",
+    "block/cornflower", "block/lily_of_the_valley", "block/wither_rose", "block/torchflower",
+    "block/vine", "block/cave_vines*", "block/weeping_vines*", "block/twisting_vines*",
+    "block/wheat_stage*", "block/carrots_stage*", "block/potatoes_stage*", "block/beetroots_stage*",
+]
+
+[[post]]
+file = "post/atmosphere.wgsl"
+name = "AO and atmosphere"
+
+[[post]]
+file = "post/godray_march.wgsl"
+name = "God rays"
+output = "godray_raw"
+scale = 0.5
+
+[[post]]
+file = "post/godray_blur.wgsl"
+name = "God ray blur"
+output = "godray"
+scale = 0.5
+
+[[post]]
+file = "post/bloom_down.wgsl"
+name = "Bloom prefilter"
+output = "bloom_half"
+scale = 0.5
+
+[[post]]
+file = "post/bloom_blur.wgsl"
+name = "Bloom blur"
+output = "bloom_quarter"
+scale = 0.25
+
+[[post]]
+file = "post/taa.wgsl"
+name = "Temporal anti-aliasing"
+
+[[post]]
+file = "post/composite.wgsl"
+name = "Composite"
+
+[[lights]]
+color = [0.3, 0.7, 1.0]
+blocks = ["soul_*"]
+
+[[lights]]
+color = [1.0, 0.2, 0.1]
+blocks = ["redstone_*"]
+
+[[lights]]
+color = [0.8, 0.9, 1.0]
+blocks = ["sea_lantern", "end_rod"]
+
+[[lights]]
+color = [1.0, 0.62, 0.28]
+blocks = ["torch", "wall_torch", "lantern", "campfire", "fire", "lava", "glowstone", "shroomlight", "jack_o_lantern"]
+
+[[pages]]
+id = "main"
+name = "E-LITE"
+items = ["page:basic", "page:lighting", "page:effects", "page:water", "page:sky", "page:camera", ""]
+
+[[pages]]
+id = "basic"
+name = "Basic"
+items = ["quality_profile", "color_scheme", "waving", "wind_force", "reflections", "refraction", "emissive_strength", ""]
+
+[[pages]]
+id = "lighting"
+name = "Lighting"
+items = ["shadow_strength", "shadow_softness", "ambient_level", "ao_strength", "night_bright", "avoid_dark", "blocklight_warmth", "torch_flicker", ""]
+
+[[pages]]
+id = "effects"
+name = "Effects"
+items = ["godray_amount", "sun_shafts", "glow_amount", "bloom_amount", "fog_amount", "fog_adjust", "morning_mist", "rain_puddles", "rain_opacity", ""]
+
+[[pages]]
+id = "water"
+name = "Water"
+items = ["wave_strength", "water_clarity", "water_absorption", "caustics_intensity", ""]
+
+[[pages]]
+id = "sky"
+name = "Sky"
+items = ["clouds", "cloud_amount", "stars", "stars_brightness", "stars_coverage", "aurora", "sky_warmth", "night_sky", ""]
+
+[[pages]]
+id = "camera"
+name = "Camera"
+items = ["tonemapping", "grade_strength", "exposure", "brightness", "contrast", "gamma", "saturation", "vibrance", "sharp_force", "dof_strength", "chromatic_aberration", "film_grain", "vignette", "cave_exposure", "taa", ""]
+
+[[options]]
+id = "quality_profile"
+name = "Profile (ACERCADE)"
+description = "E-LITE quality profile. Medium is the recommended default. Higher profiles strengthen bloom, god rays, AO and fog; shadow map size is fixed at Medium."
+type = "choice"
+values = ["No effects", "Very low", "Low", "Medium", "High", "Max"]
+default = "Medium"
+
+[[options]]
+id = "color_scheme"
+name = "Color scheme"
+description = "E-LITE COLOR_SCHEME / STYLE."
+type = "choice"
+values = ["Vanilla", "Realistic+", "LITE Legacy", "Warm film", "Vivid"]
+default = "Realistic+"
+
+[[options]]
+id = "waving"
+name = "Waving"
+description = "Leaves and plants sway in the wind. E-LITE WAVING."
+type = "bool"
+default = true
+
+[[options]]
+id = "wind_force"
+name = "Wind force"
+description = "E-LITE WIND_FORCE."
+type = "float"
+default = 1.0
+min = 0.0
+max = 4.0
+step = 0.25
+
+[[options]]
+id = "reflections"
+name = "Water reflections"
+description = "E-LITE REFLECTION_SLIDER (planar reflection texture)."
+type = "bool"
+default = true
+
+[[options]]
+id = "refraction"
+name = "Refraction"
+description = "Placeholder kept for E-LITE parity: water refraction is always on in this port."
+type = "bool"
+default = true
+
+[[options]]
+id = "emissive_strength"
+name = "Emissive strength"
+description = "E-LITE EMISSIVE_ORE / EMISSIVE_MATERIAL brightness."
+type = "float"
+default = 1.0
+min = 0.0
+max = 3.0
+step = 0.05
+
+[[options]]
+id = "shadow_strength"
+name = "Shadow strength"
+description = "How dark sun and moon shadows are."
+type = "float"
+default = 0.85
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "shadow_softness"
+name = "Shadow softness"
+type = "float"
+default = 0.2
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "ambient_level"
+name = "Ambient light"
+description = "E-LITE OMNI_MUL: brightness of the sky fill light."
+type = "float"
+default = 1.0
+min = 0.5
+max = 1.5
+step = 0.05
+
+[[options]]
+id = "ao_strength"
+name = "Ambient occlusion"
+description = "E-LITE AO_STRENGTH."
+type = "float"
+default = 0.6
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "night_bright"
+name = "Night brightness"
+description = "E-LITE NIGHT_BRIGHT: moonlight and night ambient."
+type = "float"
+default = 1.0
+min = 0.25
+max = 3.0
+step = 0.05
+
+[[options]]
+id = "avoid_dark"
+name = "Avoid dark"
+description = "E-LITE AVOID_DARK_LEVEL: soft light floor so night never goes pure black."
+type = "float"
+default = 0.04
+min = 0.0
+max = 0.2
+step = 0.01
+
+[[options]]
+id = "blocklight_warmth"
+name = "Blocklight warmth"
+description = "E-LITE BLOCKLIGHT_TEMP: 0 cool, 1 warm orange."
+type = "float"
+default = 1.0
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "torch_flicker"
+name = "Torch flicker"
+type = "float"
+default = 1.0
+min = 0.0
+max = 2.0
+step = 0.1
+
+[[options]]
+id = "godray_amount"
+name = "God rays"
+description = "E-LITE VOL_LIGHT: shafts of sunlight through leaves and terrain gaps."
+type = "float"
+default = 3.0
+min = 0.0
+max = 8.0
+step = 0.25
+
+[[options]]
+id = "sun_shafts"
+name = "Sun shafts"
+type = "float"
+default = 1.0
+min = 0.0
+max = 2.0
+step = 0.1
+
+[[options]]
+id = "glow_amount"
+name = "Sun glow"
+description = "E-LITE SUN_REFLECTION / sun halo."
+type = "float"
+default = 0.6
+min = 0.0
+max = 2.0
+step = 0.1
+
+[[options]]
+id = "bloom_amount"
+name = "Bloom"
+description = "E-LITE BLOOM_STRENGTH."
+type = "float"
+default = 0.5
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "fog_amount"
+name = "Atmosphere"
+type = "float"
+default = 1.0
+min = 0.0
+max = 2.0
+step = 0.1
+
+[[options]]
+id = "fog_adjust"
+name = "Fog strength"
+description = "E-LITE FOG_ADJUST."
+type = "float"
+default = 1.0
+min = 0.0
+max = 2.0
+step = 0.1
+
+[[options]]
+id = "morning_mist"
+name = "Morning mist"
+type = "bool"
+default = true
+
+[[options]]
+id = "rain_puddles"
+name = "Wet ground"
+description = "Rain soaks ground, puddles and wet sheen."
+type = "float"
+default = 1.0
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "rain_opacity"
+name = "Rain opacity"
+type = "float"
+default = 1.0
+min = 0.0
+max = 1.5
+step = 0.05
+
+[[options]]
+id = "wave_strength"
+name = "Water waves"
+description = "E-LITE USE_WATER_TURBULENCE."
+type = "float"
+default = 1.0
+min = 0.0
+max = 2.0
+step = 0.1
+
+[[options]]
+id = "water_clarity"
+name = "Water clarity"
+type = "float"
+default = 1.0
+min = 0.3
+max = 3.0
+step = 0.1
+
+[[options]]
+id = "water_absorption"
+name = "Water absorption"
+description = "E-LITE WATER_ABSORPTION: how much light water absorbs."
+type = "float"
+default = 1.0
+min = 0.0
+max = 3.0
+step = 0.05
+
+[[options]]
+id = "caustics_intensity"
+name = "Caustics"
+description = "E-LITE CAUSTICS_INTENSITY: light patterns on the sea floor."
+type = "float"
+default = 1.0
+min = 0.0
+max = 2.0
+step = 0.05
+
+[[options]]
+id = "clouds"
+name = "Clouds"
+description = "E-LITE V_CLOUDS (2D layer in Horizon)."
+type = "bool"
+default = true
+
+[[options]]
+id = "cloud_amount"
+name = "Cloud cover"
+description = "E-LITE CLOUD_DENSITY."
+type = "float"
+default = 0.5
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "stars"
+name = "Stars"
+description = "E-LITE STAR_SLIDER."
+type = "bool"
+default = true
+
+[[options]]
+id = "stars_brightness"
+name = "Stars brightness"
+description = "E-LITE STARS_BRIGHTNESS."
+type = "float"
+default = 1.0
+min = 0.0
+max = 2.0
+step = 0.05
+
+[[options]]
+id = "stars_coverage"
+name = "Stars coverage"
+description = "E-LITE STARS_COVERAGE."
+type = "float"
+default = 1.0
+min = 0.0
+max = 2.0
+step = 0.05
+
+[[options]]
+id = "aurora"
+name = "Aurora"
+description = "E-LITE AURORA night ribbons."
+type = "float"
+default = 0.0
+min = 0.0
+max = 1.5
+step = 0.05
+
+[[options]]
+id = "sky_warmth"
+name = "Sunset warmth"
+type = "float"
+default = 0.6
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "night_sky"
+name = "Milky Way"
+type = "bool"
+default = true
+
+[[options]]
+id = "tonemapping"
+name = "Tonemapping"
+description = "E-LITE TONEMAPPING."
+type = "choice"
+values = ["ACES", "Reinhard", "Lottes", "None"]
+default = "ACES"
+
+[[options]]
+id = "grade_strength"
+name = "Color scheme strength"
+type = "float"
+default = 1.0
+min = 0.0
+max = 1.5
+step = 0.05
+
+[[options]]
+id = "exposure"
+name = "Exposure"
+description = "E-LITE EXPOSURE."
+type = "float"
+default = 1.0
+min = 0.5
+max = 2.0
+step = 0.05
+
+[[options]]
+id = "brightness"
+name = "Brightness"
+description = "E-LITE BRIGHTNESS."
+type = "float"
+default = 1.1
+min = 0.5
+max = 1.5
+step = 0.05
+
+[[options]]
+id = "contrast"
+name = "Contrast"
+description = "E-LITE CONTRAST."
+type = "float"
+default = 1.0
+min = 0.5
+max = 1.5
+step = 0.05
+
+[[options]]
+id = "gamma"
+name = "Gamma"
+description = "E-LITE GAMMA."
+type = "float"
+default = 1.0
+min = 0.5
+max = 2.0
+step = 0.05
+
+[[options]]
+id = "saturation"
+name = "Saturation"
+description = "E-LITE SATURATION."
+type = "float"
+default = 1.1
+min = 0.0
+max = 2.0
+step = 0.05
+
+[[options]]
+id = "vibrance"
+name = "Vibrance"
+description = "E-LITE VIBRANCE."
+type = "float"
+default = 1.0
+min = 0.5
+max = 2.0
+step = 0.05
+
+[[options]]
+id = "sharp_force"
+name = "Sharpening"
+description = "E-LITE SHARP_FORCE (unsharp mask)."
+type = "float"
+default = 0.25
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "dof_strength"
+name = "Depth of field"
+description = "E-LITE DOF_STRENGTH (0 = off)."
+type = "float"
+default = 0.0
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "chromatic_aberration"
+name = "Lens fringing"
+description = "E-LITE CHROMA_ABER_STRENGTH."
+type = "float"
+default = 0.3
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "film_grain"
+name = "Film grain"
+description = "E-LITE GRAIN_FACTOR."
+type = "float"
+default = 0.15
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "vignette"
+name = "Vignette"
+description = "E-LITE VIGNETTE_FACTOR."
+type = "bool"
+default = true
+
+[[options]]
+id = "cave_exposure"
+name = "Eye adaptation"
+description = "Auto-exposure: picture brightens slowly in the dark."
+type = "float"
+default = 0.5
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "taa"
+name = "Temporal smoothing"
+description = "E-LITE AA_TYPE TAA."
+type = "bool"
+default = false
+
+[[options]]
+id = "lens_streak"
+name = "Lens streak"
+type = "float"
+default = 0.3
+min = 0.0
+max = 1.0
+step = 0.05
+
+[[options]]
+id = "letterbox"
+name = "Cinematic bars"
+description = "2.39:1 bars while F1 hides the HUD."
+type = "bool"
+default = true
+
+[[options]]
+id = "debug_view"
+name = "Debug view"
+type = "choice"
+values = ["Off", "God rays", "Shadows", "No post effects"]
+default = "Off"
+
+[budget]
+gpu_ms = 8.0
