@@ -163,7 +163,7 @@ fn atmosphere(input: PostInput) -> vec4<f32> {
             + value_noise(world.xz * 0.15 - vec2<f32>(frame.time * 0.010, frame.time * 0.022)) * 0.35;
         let mist_near = smoothstep(24.0, 56.0, distance);
         let mist = dawn * inside * low * nearby * mist_near
-            * (0.04 + 0.09 * drift) * clamp(fog_amount, 0.0, 1.0);
+            * (0.02 + 0.05 * drift) * clamp(fog_amount, 0.0, 1.0);
         // Spend only what the haze left of the weather's opacity budget.
         let budget = max(max_opacity - opacity, 0.0);
         let mist_opacity = min(mist, budget);
