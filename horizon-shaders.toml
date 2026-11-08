@@ -102,7 +102,7 @@ blocks = ["torch", "wall_torch", "lantern", "campfire", "fire", "lava", "glowsto
 [[pages]]
 id = "main"
 name = "E-LITE"
-items = ["page:basic", "page:lighting", "page:effects", "page:water", "page:sky", "page:camera", ""]
+items = ["page:basic", "page:lighting", "page:effects", "page:water", "page:sky", "page:camera", "debug_view", ""]
 
 [[pages]]
 id = "basic"
@@ -132,7 +132,7 @@ items = ["clouds", "cloud_amount", "stars", "stars_brightness", "stars_coverage"
 [[pages]]
 id = "camera"
 name = "Camera"
-items = ["tonemapping", "grade_strength", "exposure", "brightness", "contrast", "gamma", "saturation", "vibrance", "sharp_force", "dof_strength", "chromatic_aberration", "film_grain", "vignette", "cave_exposure", "taa", ""]
+items = ["tonemapping", "grade_strength", "exposure", "brightness", "contrast", "gamma", "saturation", "vibrance", "sharp_force", "dof_strength", "chromatic_aberration", "film_grain", "vignette", "cave_exposure", "taa", "lens_streak", "letterbox", ""]
 
 [[options]]
 id = "quality_profile"
