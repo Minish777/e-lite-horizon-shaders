@@ -76,7 +76,7 @@ fn split_tone(c: vec3<f32>, low: vec3<f32>, high: vec3<f32>, amount: f32) -> vec
 }
 
 // An S-curve around a pivot: `amount` 0 leaves the picture alone, 1 is a strong film contrast.
-fn contrast(c: vec3<f32>, amount: f32) -> vec3<f32> {
+fn contrast_curve(c: vec3<f32>, amount: f32) -> vec3<f32> {
     let s = c * c * (3.0 - 2.0 * c);
     return mix(c, s, amount);
 }
@@ -89,7 +89,7 @@ fn grade(c_in: vec3<f32>) -> vec3<f32> {
     var g = c;
     if color_scheme == 1u {
         g = split_tone(c, vec3<f32>(0.62, 0.92, 1.0), vec3<f32>(1.0, 0.86, 0.66), 0.55);
-        g = contrast(g, 0.45);
+        g = contrast_curve(g, 0.45);
         g = max(g - vec3<f32>(0.012), vec3<f32>(0.0)) * 1.04;
         // Warm hues (skin, wood, sunsets) richer; greens pulled slightly toward teal.
         let warmth = clamp((g.r - g.b) * 2.0, 0.0, 1.0);
@@ -97,7 +97,7 @@ fn grade(c_in: vec3<f32>) -> vec3<f32> {
         g.g = mix(g.g, g.g * 0.96 + g.b * 0.04, clamp((g.g - g.r) * 4.0, 0.0, 1.0));
     } else if color_scheme == 2u {
         g = split_tone(c, vec3<f32>(0.85, 0.78, 0.95), vec3<f32>(1.0, 0.85, 0.6), 0.5);
-        g = contrast(g, 0.2);
+        g = contrast_curve(g, 0.2);
         let green = clamp((g.g - max(g.r, g.b)) * 5.0, 0.0, 1.0);
         g = mix(g, grade_saturation(g, 0.7) * vec3<f32>(1.04, 1.0, 0.92), green * 0.6);
         // Faded blacks and a softly rolled top, like print film.
@@ -105,14 +105,14 @@ fn grade(c_in: vec3<f32>) -> vec3<f32> {
     } else if color_scheme == 3u {
         g = grade_saturation(c, 0.7);
         g = split_tone(g, vec3<f32>(0.6, 0.8, 1.0), vec3<f32>(0.95, 0.95, 1.0), 0.5);
-        g = contrast(g * 0.92, 0.55);
+        g = contrast_curve(g * 0.92, 0.55);
     } else if color_scheme == 4u {
         g = grade_saturation(c, 1.35);
-        g = contrast(g, 0.35);
+        g = contrast_curve(g, 0.35);
         g = split_tone(g, vec3<f32>(0.8, 0.9, 1.0), vec3<f32>(1.0, 0.95, 0.85), 0.25);
     } else {
         g = split_tone(c, vec3<f32>(0.9, 0.97, 1.05), vec3<f32>(1.05, 1.0, 0.94), 0.5);
-        g = contrast(g, 0.15);
+        g = contrast_curve(g, 0.15);
     }
     return mix(c, clamp(g, vec3<f32>(0.0), vec3<f32>(1.0)), grade_strength);
 }

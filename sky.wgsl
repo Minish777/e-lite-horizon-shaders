@@ -207,7 +207,7 @@ fn sky(input: SkyInput) -> vec4<f32> {
     let mw_visible = smoothstep(-0.05, 0.12, d.y) * (1.0 - frame.rain) * (1.0 - daylight())
         * select(0.0, 1.0, night_sky);
     night_color += vec3<f32>(0.74, 0.80, 1.0) * (mw_band * (0.20 + 0.80 * mw_cloud) * mw_visible * 0.03);
-    night_color += aurora_light(d, frame.time) * aurora * smoothstep(-0.05, 0.12, d.y) * (1.0 - rain_amount) * (1.0 - daylight());
+    night_color += aurora_light(d, frame.time) * aurora * smoothstep(-0.05, 0.12, d.y) * (1.0 - frame.rain) * (1.0 - daylight());
 
     color = mix(color, night_color, night);
 
